@@ -1,6 +1,7 @@
 package com.proofit.techtask.service;
 
 import com.proofit.techtask.config.ExtAPIService;
+import com.proofit.techtask.exception.InvalidInputException;
 import com.proofit.techtask.model.DraftTicketPrice;
 import com.proofit.techtask.model.Passenger;
 import com.proofit.techtask.model.PassengerCategory;
@@ -24,7 +25,7 @@ public class DraftPriceService {
         this.extAPIService = extAPIService;
     }
 
-    public DraftTicketPrice getPrice(List<Passenger> passengerList) {
+    public DraftTicketPrice getPrice(List<Passenger> passengerList) throws InvalidInputException {
         BigDecimal totalPrice = BigDecimal.valueOf(0);
         List<Ticket> tickets = new ArrayList<>();
         double vat = extAPIService.getVAT();
@@ -32,8 +33,17 @@ public class DraftPriceService {
 
         for (Passenger passenger : passengerList) {
             String destination = passenger.getBusTerminal();
+            if (destination == null) {
+                throw new InvalidInputException("Passenger destination required!");
+            }
             int bags = passenger.getBagCount();
+            if (bags < 0) {
+                throw new InvalidInputException("Amount of bags cannot be negative!");
+            }
             PassengerCategory category = passenger.getCategory();
+            if (category == null) {
+                throw new InvalidInputException("Passenger category required!");
+            }
 
             BigDecimal basePrice;
             BigDecimal bagPrice;

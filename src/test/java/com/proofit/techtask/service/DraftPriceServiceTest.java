@@ -1,6 +1,7 @@
 package com.proofit.techtask.service;
 
 import com.proofit.techtask.config.ExtAPIService;
+import com.proofit.techtask.exception.InvalidInputException;
 import com.proofit.techtask.model.Passenger;
 import com.proofit.techtask.model.PassengerCategory;
 import org.junit.jupiter.api.DisplayName;
@@ -29,8 +30,8 @@ class DraftPriceServiceTest {
     DraftPriceService draftPriceService;
 
     @Test
-    @DisplayName("getPrice() with valid input")
-    void getPriceValidInput() {
+    @DisplayName("getPrice() with valid input is correct")
+    void getPriceValidInput() throws InvalidInputException {
 
         Passenger testPassenger = new Passenger();
         testPassenger.setBusTerminal("Riga");
@@ -47,7 +48,65 @@ class DraftPriceServiceTest {
     }
 
     @Test
-    @DisplayName("VAT calculation")
+    @DisplayName("getPrice() with negative amount of bags throws exception")
+    void getPriceNegativeBagAmount() throws InvalidInputException {
+
+        Passenger testPassenger = new Passenger();
+        testPassenger.setBusTerminal("Riga");
+        testPassenger.setBagCount(-2);
+        testPassenger.setCategory(PassengerCategory.ADULT);
+
+        List<Passenger> testList = new ArrayList<>();
+        testList.add(testPassenger);
+
+        Exception exception = assertThrows(InvalidInputException.class, () -> draftPriceService.getPrice(testList));
+
+        String expectedMessage = "Amount of bags cannot be negative!";
+        String actualMessage = exception.getMessage();
+
+        assertEquals(actualMessage, expectedMessage);
+    }
+
+    @Test
+    @DisplayName("getPrice() with empty category throws exception")
+    void getPriceEmptyCategory() throws InvalidInputException {
+
+        Passenger testPassenger = new Passenger();
+        testPassenger.setBusTerminal("Riga");
+        testPassenger.setBagCount(2);
+
+        List<Passenger> testList = new ArrayList<>();
+        testList.add(testPassenger);
+
+        Exception exception = assertThrows(InvalidInputException.class, () -> draftPriceService.getPrice(testList));
+
+        String expectedMessage = "Passenger category required!";
+        String actualMessage = exception.getMessage();
+
+        assertEquals(actualMessage, expectedMessage);
+    }
+
+    @Test
+    @DisplayName("getPrice() with empty destination throws exception")
+    void getPriceEmptyDestination() throws InvalidInputException {
+
+        Passenger testPassenger = new Passenger();
+        testPassenger.setBagCount(2);
+        testPassenger.setCategory(PassengerCategory.ADULT);
+
+        List<Passenger> testList = new ArrayList<>();
+        testList.add(testPassenger);
+
+        Exception exception = assertThrows(InvalidInputException.class, () -> draftPriceService.getPrice(testList));
+
+        String expectedMessage = "Passenger destination required!";
+        String actualMessage = exception.getMessage();
+
+        assertEquals(actualMessage, expectedMessage);
+    }
+
+    @Test
+    @DisplayName("VAT calculation is correct")
     void calculatePriceWithVATCorrectResult() {
         BigDecimal expectedResult = BigDecimal.valueOf(12.10);
         expectedResult = expectedResult.setScale(2, RoundingMode.HALF_EVEN);
