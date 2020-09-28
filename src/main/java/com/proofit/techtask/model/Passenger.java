@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Passenger {
 
     private PassengerCategory category;
-    private String busTerminal;
+    private String destination;
     private int bagCount;
 
     public PassengerCategory getCategory() {
@@ -25,11 +25,11 @@ public class Passenger {
         this.bagCount = bagCount;
     }
 
-    public String getBusTerminal() {
-        return busTerminal;
+    public String getDestination() {
+        return destination;
     }
 
-    public void setBusTerminal(String busTerminal) {
-        this.busTerminal = busTerminal;
+    public void setDestination(String destination) {
+        this.destination = destination;
     }
 }

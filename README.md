@@ -5,7 +5,7 @@ To receive the draft price, a JSON array with the passengers' information has to
 
 &nbsp;&nbsp;[ {  
 &nbsp;&nbsp;&nbsp;&nbsp;"category": "ADULT or INFANT",  
-&nbsp;&nbsp;&nbsp;&nbsp;"busTerminal": "The end destination of the passenger",  
+&nbsp;&nbsp;&nbsp;&nbsp;"destination": "The end destination of the passenger",  
 &nbsp;&nbsp;&nbsp;&nbsp;"bagCount": "The amount of bags the passenger has"  
 &nbsp;&nbsp;} ]
 
@@ -24,6 +24,12 @@ The application then returns a JSON object, which contains the total price of th
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "totalBagPrice": "10.89 EUR"  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } ]  
 &nbsp;&nbsp;}
+
+## Starting the application:
+
+Open the files in your favourite IDE and launch TechTaskApplication.java or compile it and run it via your preferred method.  
+By default the application will be started on http://localhost:8085  
+A simple external test API for receiving VAT and ticket base price data can be found here: https://github.com/rimshar/VATandBasePriceTestAPI
 
 ## Technologies used:
 * Java 8

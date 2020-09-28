@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -21,7 +20,7 @@ public class DraftPriceController {
     }
 
     @GetMapping(path = "/getPrice", consumes = "application/json")
-    public DraftTicketPrice getPrice(@Valid @RequestBody List<Passenger> passengerList) {
+    public DraftTicketPrice getPrice(@RequestBody List<Passenger> passengerList) {
         return draftPriceService.getPrice(passengerList);
     }
 }

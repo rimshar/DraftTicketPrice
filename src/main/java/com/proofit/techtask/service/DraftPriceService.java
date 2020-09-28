@@ -32,7 +32,7 @@ public class DraftPriceService {
         Currency currency = Currency.getInstance("EUR");
 
         for (Passenger passenger : passengerList) {
-            String destination = passenger.getBusTerminal();
+            String destination = passenger.getDestination();
             if (destination == null) {
                 throw new InvalidInputException("Passenger destination required!");
             }
